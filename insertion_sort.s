@@ -25,14 +25,17 @@ main
 			;		0x204 contains data element
 			;		0x208 contain next node addr
 			
-			mov		r6, #0 ;  initialize prev to 0 as it is NULL for head node
+			add		r8, r5 #500 ; initialize tail node at r8 by adding arbitrarily large value to r5
+			add 		r7, r5, #32 ; keep current node in r7 (head node + 32)
+
+			mov		r6, r5 ;  initialize prev to 0 as it is NULL for head node
 			mov		r0, #0 ;  intialize r0 as 0 register
 			
 			; need strictly head and pointer nodes => will be empty and exist to avoid any
 			; invalid memory accesses
 
 			mov		r2, #0 ; use r2 as loop counter;
-			mov		r7, r5 ; initialize curr addr to head of list
+			
 			;		r5 will forever hold the head address
 			;		r7 = curr node addr
 			;		r6 = prev node addr
@@ -104,8 +107,6 @@ swap ;swap curr and prev node.
 			mov		r7, r6			; curr = prev
 			mov		r6, r9			; prev = prev.prev
 			mov		r15, r14		; return
-
-tail_swap
 			
 
 skip
