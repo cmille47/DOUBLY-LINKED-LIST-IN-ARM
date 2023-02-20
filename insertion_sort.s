@@ -24,15 +24,17 @@ main
 			;		0x200 contains prev node addr
 			;		0x204 contains data element
 			;		0x208 contain next node addr
-			
-			mov		r6, #0 ;  initialize prev to 0 as it is NULL for head node
+
+			mov		r6, r5 ;  initialize prev to r5 (head node)
 			mov		r0, #0 ;  intialize r0 as 0 register
-			
+
+			str r0, [r5] 		;head.prev = 0 (NULL)
+			add r7, r5, #32		;allocate nextnode addr in r7
+			str r7, [r5, #8]	;head.next = r7 
 			; need strictly head and pointer nodes => will be empty and exist to avoid any
 			; invalid memory accesses
 
 			mov		r2, #0 ; use r2 as loop counter;
-			mov		r7, r5 ; initialize curr addr to head of list
 			;		r5 will forever hold the head address
 			;		r7 = curr node addr
 			;		r6 = prev node addr
@@ -52,13 +54,14 @@ loop
 			
 end_loop
 			;		need to set tail node and clean up hanging pointers
-			sub		r7, r7, #32  ; need to deincrement by 32 bc insert_element increments end
+			;sub		r7, r7, #32  ; need to deincrement by 32 bc insert_element increments end
 			;		curr = tail
-			str		r0, [r7, #8] ; curr.next = 0 (NULL)
+			str 	r6, [r7]	 ; tail.prev = last inserted node
+			str		r0, [r7, #8] ; tail.next = 0 (NULL)
 			mov		r10, r7      ; r10 will hold the tail address
 			mov		r6, r5		 ; set r6 = head
-			mov		r7, r5
-			b		sort
+			mov		r7, r5		
+			b		done
 			
 			;#################################################################################
 			;		Add insert, swap, delete functions
@@ -103,10 +106,7 @@ swap ;swap curr and prev node.
 			
 			mov		r7, r6			; curr = prev
 			mov		r6, r9			; prev = prev.prev
-			mov		r15, r14		; return
-
-tail_swap
-			
+			mov		r15, r14		; return			
 
 skip
 			cmp		r7, r10			; if curr == tail done
