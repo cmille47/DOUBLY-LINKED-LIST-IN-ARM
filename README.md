@@ -1,5 +1,8 @@
 # compArchLab1
 
+WHAT THIS IS:
+Takes array and creates a doubly linked list that is sorted and deletes any nodes that contain duplicate values
+
 QUICK REVIEW ON HOW TO USE GITHUB:
 1. Clone the repository to your personal computer or a studentmachine using the 'git clone' command.
 2. Create a new branch using git checkout -b '<branchname>'
