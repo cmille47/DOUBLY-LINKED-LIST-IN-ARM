@@ -129,10 +129,10 @@ delete_loop							; loop through list, remove any nodes w/ duplicate values
 			beq		delete
 			b		delete_loop
 			
-delete								; if prev and curr have same val, delete prev node
-			ldr		r11, [r6]		; r11 = prev.prev
-			str		r11, [r7]		; curr.prev = prev.prev
-			str		r7 , [r11, #8]  ; prev.prev.next = curr
+delete								; if prev (n-1) and curr (n) have same val, delete curr (n) node
+			ldr		r11, [r7, #8]	; r11 = curr.next
+			str		r11, [r6, #8]	; prev.next = curr.next
+			str		r6 , [r11]  	; curr.next.prev = prev
 			b		delete_loop
 			
 done
