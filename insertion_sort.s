@@ -115,7 +115,7 @@ skip ; moves r6, r7 each to there next nodes to continue processing of list
 			
 deletion
 			ldr		r7, [r5, #8]	; curr = head.next
-			cmp		r7, r10			; if curr == tail, no nodes. jump to done. 
+			cmp		r7, r10			; if curr == tail, no value holding nodes (head <-> tail) jump to done. 
 			beq		done
 			
 delete_loop
