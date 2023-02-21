@@ -113,12 +113,12 @@ skip ; moves r6, r7 each to there next nodes to continue processing of list
 			ldr		r7, [r7, #8]    ; curr = curr.next
 			b		sort
 			
-deletion
+deletion							; initalize r7 as head.next for delete_loop. Do check on list
 			ldr		r7, [r5, #8]	; curr = head.next
-			cmp		r7, r10			; if curr == tail, no value holding nodes (head <-> tail) jump to done. 
+			cmp		r7, r10			; if curr == tail, no real nodes (head <-> tail) jump to done. 
 			beq		done
 			
-delete_loop
+delete_loop							; loop through list, remove any nodes w/ duplicate values
 			ldr		r7, [r7, #8]	; curr = curr.next
 			cmp		r7, r10			; if curr == tail, all nodes processed. done
 			beq		done			
