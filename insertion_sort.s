@@ -2,7 +2,7 @@
 			;		Lab 01 skeleton
 			;##########################################
 			
-data_to_sort	dcd		34, 23, 22, 8, 50, 74, 2, 1, 17, 40
+data_to_sort	dcd		34, 34, 22, 8, 50, 74, 2, 1, 17, 40
 list_elements	dcd		10
 			
 main
@@ -83,16 +83,16 @@ sort
 			cmp		r6, r5      ; check that curr != head
 			beq		skip
 			cmp		r7, r10
-			beq		done
+			beq		deletion
 			ldr		r1, [r6, #4] ; r1 = prev.val
 			ldr		r2, [r7, #4] ; r2 = curr.val
 			cmp		r1, r2       ; if r1 (prior val) > r2 (curr val) swap
-			bge		swap
-			bl		skip
+			bgt		swap
+			ble		skip
 			b		sort
 			
 			
-swap ;swap curr and prev node.	
+swap ;swap curr and prev node.
 			mov		r12, r7 		; r12 = temp_curr = curr
 			mov		r11, r6 		; r11 =temp_prev = prev
 			ldr		r9, [r11]		; r9 = temp_prev.prev
@@ -114,5 +114,27 @@ skip
 			mov		r6, r7			; prev = curr
 			ldr		r7, [r7, #8]    ; curr = curr.next
 			b		sort
+			
+deletion
+			ldr		r7, [r5, #8]
+			cmp		r7, r10
+			beq		done
+			
+delete_loop
+			ldr		r7, [r7, #8]
+			cmp		r7, r10
+			beq		done
+			ldr		r6, [r7]
+			ldr		r2, [r6, #4]
+			ldr		r1, [r7, #4]
+			cmp		r1, r2
+			beq		delete
+			b		delete_loop
+			
+delete
+			ldr		r11, [r6]
+			str		r11, [r7]
+			str		r7 , [r11, #8]
+			b		delete_loop
 			
 done
